@@ -1,55 +1,59 @@
 #pragma once
-#include "graphics.h"
+
 class Menu
 {
 private:
-	
-public:
-	int color_name = BLACK;
-	int color_norm_item_menu = RED;
-	int color_abnorm_item_menu = YELLOW;
-	int color_fon = GREEN;
-	int color_bk = GREEN;
-	int font_text = 10;
 	static const int num_of_item_menu = 5;
-	int start_Y_of_headline = 20;
-	int start_Y_of_menu = 140;
-	int finish_Y_of_menu = 120;
-	int interval_between_str = 20;
+	int color_background;
+	int interval_between_str;
+
+	struct settings_text
+	{
+		int color_norm;
+		int color_abnorm;
+		int char_size;
+		int font_text;
+	} headline, body;
 	struct coordinate
 	{
 		int x;
 		int y;
-	} coord_name_game;
+	} coord_header;
 	struct location
 	{
 		coordinate left_top;
 		coordinate right_bottom;
-	} ar_coord_menu[Menu::num_of_item_menu];
-	
-	Menu();
+	} array_location_of_strs[Menu::num_of_item_menu], loc_of_body;
 
-	void draw_fon(int color);
+	char* name_header;
+	char** name_body;
 
-	void make_headline(char* str, int size_char);
 
-	void fill_coord_str_for_out(char * str, int Y_pos_for_outtext);
+	void init_array_with_coord_menu();
+	void comp_interval_between_str(int height_str);
+	Menu::location compute_coord_str_in_menu(char * str_menu, int & buff);
+	int compute_coord_X_str(char * str);
+	Menu::coordinate compute_right_bottom(char * str, Menu::coordinate left_top);
 
-	int find_coorX_for_str(char * str);
-
-	int draw_body_of_menu(char ** array_for_item_of_menu, bool flag_click);
+	bool if_in_area(Menu::location pos_str, int mx, int my);
 
 	int determine_color_text(int mx, int my, int i);
 
-	void fill_array_coord_menu(char ** arr_str_menu);
+public:
+	
+	Menu(char * header_name, char ** name_body_of_menu);
 
-	Menu::location compute_coord_str_in_menu(char * arr_str_menu, int & buff);
+	void set_color_background(int color_bkgd);
+	void draw_background();
 
-	Menu::coordinate compute_right_bottom(char * str, Menu::coordinate left_top);
+	void set_style_headline(int color_norm, int char_size, int font_text);
+	void set_coord_start_headline(int x, int y);
+	void draw_headline();
 
-	int find_interval_between_str(int height_str);
-
-	bool if_in_area(Menu::location pos_str, int mx, int my);
+	void set_style_body(int color_norm, int color_abnorm, int char_size, int font_text);
+	void set_style_body();
+	void set_starting_settings_for_output_of_body(int left, int top, int right, int bottom);
+	int draw_body(int mx, int my, bool flag_click);
 
 	~Menu();
 };

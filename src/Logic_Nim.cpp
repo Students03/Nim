@@ -2,23 +2,24 @@
 #include <stdlib.h>
 #include <time.h>
 #include <memory>
+
 Logic_Nim::Logic_Nim() {
-
-}
-
-void Logic_Nim::fill_array_bunches() {
+	// иннициализируем некоторые свойства класса
+	int chosen_bunch = -1;
+	int chosen_stones = -1;
+	
+	// заполняем кучки случайным количеством камней
 	srand(time(0));
 	for (int i = 0; i < Logic_Nim::num_of_bunches; i++)
-		Logic_Nim::array_bunches[i] = rand() % (Logic_Nim::max_num_of_stones - Logic_Nim::min_num_of_stones + 1) + Logic_Nim::min_num_of_stones;
-}
-
-void Logic_Nim::sort_array_bunches() {
+		Logic_Nim::array_bunches[i] = rand() % (Logic_Nim::max_num_of_stones - Logic_Nim::min_num_of_stones + 1) - Logic_Nim::min_num_of_stones;
+	
+	// сортируем кучки по возрастанию
 	for (int i = 0; i < Logic_Nim::num_of_bunches - 1; i++)
 		for (int j = 1; j < Logic_Nim::num_of_bunches; j++)
 			if (Logic_Nim::array_bunches[i] > Logic_Nim::array_bunches[j])
 				std::swap(Logic_Nim::array_bunches[i], Logic_Nim::array_bunches[j]);
-
 }
+
 
 int Logic_Nim::nim_sum() {
 	int sum = Logic_Nim::array_bunches[0];
@@ -79,9 +80,8 @@ void Logic_Nim::man_choosing(int num_of_chosen_bunch, int amount_of_chosen_stone
 
 void Logic_Nim::swap_priority() {
 	if (Logic_Nim::game_mode == Logic_Nim::player1_vs_player2)
-		Logic_Nim::who_do_move = (Logic_Nim::priority)((int)Logic_Nim::who_do_move - 3);
+		Logic_Nim::who_do_move = (Logic_Nim::priority)((int)Logic_Nim::who_do_move - 2);
 	Logic_Nim::who_do_move = (Logic_Nim::priority)(1 - (int)Logic_Nim::who_do_move);
-
 }
 
 Logic_Nim::~Logic_Nim()

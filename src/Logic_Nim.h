@@ -2,13 +2,14 @@
 
 class Logic_Nim
 {
-public:
+private:
 	static const int num_of_bunches = 3;
-	int max_num_of_stones = 10;
-	int min_num_of_stones = 4;
-	int chosen_bunch = -1;
-	int chosen_stones = -1;
+	const int max_num_of_stones = 10;
+	const int min_num_of_stones = 4;
+	int chosen_bunch;
+	int chosen_stones;
 	int array_bunches[Logic_Nim::num_of_bunches];
+public:
 	enum diffic
 	{
 		easy, hard
@@ -26,10 +27,6 @@ public:
 	priority who_do_move;
 
 	Logic_Nim();
-
-	void fill_array_bunches();
-
-	void sort_array_bunches();
 
 	int nim_sum();
 

@@ -5,10 +5,16 @@
 int X_max = 800;
 int Y_max = 600;
 
+void qwer() {
+	settextstyle(10, 0, 10);
+}
 
-int main()/*WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)*/ {
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {	
 	char game_name[] = "Ним";
 	const int num_of_item_menu = 5;
+	bool flag_exit = false;
+	bool flag_is_click = false;
+	int mx, my, number_of_func = -1;
 	char* arr_str_menu[num_of_item_menu];
 	for (int i = 0; i < num_of_item_menu; i++) {
 		arr_str_menu[i] = new char[17];
@@ -18,25 +24,24 @@ int main()/*WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR l
 	std::strcpy(arr_str_menu[2], "Настройки");
 	std::strcpy(arr_str_menu[3], "Правила игры");
 	std::strcpy(arr_str_menu[4], "Выход");
+	
 	initwindow(X_max, Y_max, "Игра Ним", 200, 0);
-	Menu Main_Menu;
-	Main_Menu.draw_fon(Main_Menu.color_fon);
-	setcolor(Main_Menu.color_name);
-	setbkcolor(Main_Menu.color_fon);
-	Main_Menu.make_headline(game_name, 8);
-	settextstyle(Main_Menu.font_text, 0, 5);
-	Main_Menu.interval_between_str = Main_Menu.find_interval_between_str(textheight("Привет"));
-	Main_Menu.fill_array_coord_menu(arr_str_menu);
-	bool flag_click = false;
-	bool flag_exit = false;
-	int number_of_func = -1;
+	Menu Main_Menu(game_name, arr_str_menu);
+	for (int i = 0; i < num_of_item_menu; i++)
+		delete[] arr_str_menu[i];
+
+	Main_Menu.draw_background();
+	Main_Menu.draw_headline();
+	Main_Menu.set_style_body();
 	while (!flag_exit) {
-		flag_click = false;
+		mx = mousex();
+		my = mousey();
+		flag_is_click = false;
 		if (ismouseclick(WM_LBUTTONDOWN)) {
 			clearmouseclick(WM_LBUTTONDOWN);
-			flag_click = true;
+			flag_is_click = true;
 		}
-		number_of_func = Main_Menu.draw_body_of_menu(arr_str_menu, flag_click);
+		number_of_func = Main_Menu.draw_body(mx, my, flag_is_click);
 		switch (number_of_func)
 		{
 		case 0:
@@ -65,10 +70,7 @@ int main()/*WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR l
 		default:
 			break;
 		}
-	}
+	}	
 	closegraph();
-	for (int i = 0; i < num_of_item_menu; i++) {
-		delete[] arr_str_menu[i];
-	}
 	return 0;
 }
