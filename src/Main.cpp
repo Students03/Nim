@@ -1,15 +1,13 @@
 #include "graphics.h"
 #include "Menu.h"
+#include "Button.h"
 #include <string.h>
 #include <iostream>
 int X_max = 800;
 int Y_max = 600;
 
-void qwer() {
-	settextstyle(10, 0, 10);
-}
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {	
+int main()/*WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)*/ {	
 	char game_name[] = "Ним";
 	const int num_of_item_menu = 5;
 	bool flag_exit = false;
@@ -27,6 +25,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	
 	initwindow(X_max, Y_max, "Игра Ним", 200, 0);
 	Menu Main_Menu(game_name, arr_str_menu);
+	Button button;
 	for (int i = 0; i < num_of_item_menu; i++)
 		delete[] arr_str_menu[i];
 
@@ -37,8 +36,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		mx = mousex();
 		my = mousey();
 		flag_is_click = false;
-		if (ismouseclick(WM_LBUTTONDOWN)) {
-			clearmouseclick(WM_LBUTTONDOWN);
+		if (ismouseclick(WM_LBUTTONUP)) {
+			clearmouseclick(WM_LBUTTONUP);
 			flag_is_click = true;
 		}
 		number_of_func = Main_Menu.draw_body(mx, my, flag_is_click);

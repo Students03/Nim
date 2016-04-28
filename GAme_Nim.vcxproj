@@ -65,6 +65,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\Logic_Nim.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Menu.cpp" />
@@ -80,6 +81,7 @@
     <ClCompile Include="thirdparty\winthread.cxx" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Button.h" />
     <ClInclude Include="src\Logic_Nim.h" />
     <ClInclude Include="src\Menu.h" />
     <ClInclude Include="thirdparty\dibapi.h" />
