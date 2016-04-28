@@ -8,11 +8,13 @@ Logic_Nim::Logic_Nim() {
 	int chosen_bunch = -1;
 	int chosen_stones = -1;
 	
-	// заполняем кучки случайным количеством камней
+	// заполняем кучки случайным количеством камней, таким образом, 
+	// чтобы первый, кто делает ход, мог выйграть при безошибочных ходах
 	srand(time(0));
-	for (int i = 0; i < Logic_Nim::num_of_bunches; i++)
-		Logic_Nim::array_bunches[i] = rand() % (Logic_Nim::max_num_of_stones - Logic_Nim::min_num_of_stones + 1) - Logic_Nim::min_num_of_stones;
-	
+	do {
+		for (int i = 0; i < Logic_Nim::num_of_bunches; i++)
+			Logic_Nim::array_bunches[i] = rand() % (Logic_Nim::max_num_of_stones - Logic_Nim::min_num_of_stones + 1) - Logic_Nim::min_num_of_stones;
+	} while (!Logic_Nim::nim_sum());
 	// сортируем кучки по возрастанию
 	for (int i = 0; i < Logic_Nim::num_of_bunches - 1; i++)
 		for (int j = 1; j < Logic_Nim::num_of_bunches; j++)
