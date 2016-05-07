@@ -50,6 +50,29 @@ void Menu::draw_background() {
 	bar(0, 0, X_max, Y_max);
 }
 
+
+void Menu::init_array_with_coord_menu() {
+	int buff_Y_for_str = Menu::loc_of_body.left_top.y + 2;
+	Menu::comp_interval_between_str(textheight("Привет"));
+	for (int i = 0; i < Menu::num_of_item_menu; i++) 
+		Menu::array_location_of_strs[i] = Menu::compute_coord_str_in_menu(Menu::name_body[i], buff_Y_for_str);
+}
+void Menu::comp_interval_between_str(int height_str) {
+	int free_placeY = Menu::loc_of_body.right_bottom.y - Menu::loc_of_body.left_top.y;
+	int temp = (free_placeY - Menu::num_of_item_menu * height_str) / Menu::num_of_item_menu;
+	Menu::interval_between_str = temp;
+}
+Menu::location Menu::compute_coord_str_in_menu(char* str_menu, int &buff) {
+	Menu::location coor_str_in_menu;
+	coor_str_in_menu.left_top = { Menu::compute_coord_X_str(str_menu), buff};
+	coor_str_in_menu.right_bottom = Menu::compute_right_bottom(str_menu, coor_str_in_menu.left_top);
+	buff += Menu::interval_between_str + textheight(str_menu);
+	return coor_str_in_menu;
+}
+int Menu::compute_coord_X_str(char* str) {
+	int temp = Menu::loc_of_body.right_bottom.x - Menu::loc_of_body.left_top.x;
+	return (temp - textwidth(str)) / 2 + Menu::loc_of_body.left_top.x;
+}
 void Menu::set_style_headline(int color_norm, int char_size, int font_text) {
 	Menu::headline.color_norm = color_norm;
 	Menu::headline.char_size = char_size;
@@ -92,33 +115,10 @@ int Menu::draw_body(int mx, int my, bool flag_click) {
 			if(flag_click)
 				return i;
 	}
-	return -1;//!!!!!!!!!!!!!!!!!!!!!!!!!
+	return -1;
 }
 
 
-
-void Menu::init_array_with_coord_menu() {
-	int buff_Y_for_str = Menu::loc_of_body.left_top.y + 2;
-	Menu::comp_interval_between_str(textheight("Привет"));
-	for (int i = 0; i < Menu::num_of_item_menu; i++) 
-		Menu::array_location_of_strs[i] = Menu::compute_coord_str_in_menu(Menu::name_body[i], buff_Y_for_str);
-}
-void Menu::comp_interval_between_str(int height_str) {
-	int free_placeY = Menu::loc_of_body.right_bottom.y - Menu::loc_of_body.left_top.y;
-	int temp = (free_placeY - Menu::num_of_item_menu * height_str) / Menu::num_of_item_menu;
-	Menu::interval_between_str = temp;
-}
-Menu::location Menu::compute_coord_str_in_menu(char* str_menu, int &buff) {
-	Menu::location coor_str_in_menu;
-	coor_str_in_menu.left_top = { Menu::compute_coord_X_str(str_menu), buff};
-	coor_str_in_menu.right_bottom = Menu::compute_right_bottom(str_menu, coor_str_in_menu.left_top);
-	buff += Menu::interval_between_str + textheight(str_menu);
-	return coor_str_in_menu;
-}
-int Menu::compute_coord_X_str(char* str) {
-	int temp = Menu::loc_of_body.right_bottom.x - Menu::loc_of_body.left_top.x;
-	return (temp - textwidth(str)) / 2 + Menu::loc_of_body.left_top.x;
-}
 Menu::coordinate Menu::compute_right_bottom(char *str, Menu::coordinate left_top) {
 	Menu::coordinate temp = { left_top.x + textwidth(str), left_top.y + textheight(str) };
 	return temp;
@@ -137,7 +137,6 @@ int Menu::determine_color_text(int mx, int my, int i) {
 	else
 		return Menu::body.color_norm;
 }
-
 
 Menu::~Menu() {
 	delete [] Menu::name_header;

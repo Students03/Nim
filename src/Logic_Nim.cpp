@@ -13,7 +13,7 @@ Logic_Nim::Logic_Nim() {
 	srand(time(0));
 	do {
 		for (int i = 0; i < Logic_Nim::num_of_bunches; i++)
-			Logic_Nim::array_bunches[i] = rand() % (Logic_Nim::max_num_of_stones - Logic_Nim::min_num_of_stones + 1) - Logic_Nim::min_num_of_stones;
+			Logic_Nim::array_bunches[i] = rand() % (Logic_Nim::max_num_of_stones - Logic_Nim::min_num_of_stones + 1) + Logic_Nim::min_num_of_stones;
 	} while (!Logic_Nim::nim_sum());
 	// сортируем кучки по возрастанию
 	for (int i = 0; i < Logic_Nim::num_of_bunches - 1; i++)
@@ -22,6 +22,22 @@ Logic_Nim::Logic_Nim() {
 				std::swap(Logic_Nim::array_bunches[i], Logic_Nim::array_bunches[j]);
 }
 
+
+
+void Logic_Nim::set_who_do_move(Logic_Nim::priority who) {
+	Logic_Nim::who_do_move = who;
+}
+
+void Logic_Nim::set_num_chosen_bunch_stone(int num_bunch, int num_stone) {
+	Logic_Nim::chosen_bunch = num_bunch;
+	Logic_Nim::chosen_stones = num_stone;
+}
+
+void Logic_Nim::set_amount_stones_in_bunches(int num1, int num2, int num3) {
+	Logic_Nim::array_bunches[0] = num1;
+	Logic_Nim::array_bunches[1] = num2;
+	Logic_Nim::array_bunches[2] = num3;
+}
 
 int Logic_Nim::nim_sum() {
 	int sum = Logic_Nim::array_bunches[0];
@@ -62,7 +78,7 @@ int Logic_Nim::hard_choose_bunch_bot() {
 
 int Logic_Nim::choose_stones(){
 	if (Logic_Nim::difficulty == easy)
-		return rand() % Logic_Nim::array_bunches[Logic_Nim::chosen_bunch] + 1;
+		return rand() % Logic_Nim::array_bunches[Logic_Nim::chosen_bunch];
 	else
 		return Logic_Nim::hard_choose_stones_bot();
 }
@@ -72,7 +88,7 @@ int Logic_Nim::hard_choose_stones_bot() {
 	for (int i = 0; i < Logic_Nim::num_of_bunches; i++)
 		if (i != Logic_Nim::chosen_bunch)
 			sum_2 ^= Logic_Nim::array_bunches[i];
-	return abs(Logic_Nim::array_bunches[Logic_Nim::chosen_bunch] - sum_2);
+	return Logic_Nim::array_bunches[Logic_Nim::chosen_bunch] - abs(Logic_Nim::array_bunches[Logic_Nim::chosen_bunch] - sum_2);
 }
 
 void Logic_Nim::man_choosing(int num_of_chosen_bunch, int amount_of_chosen_stones) {
@@ -81,11 +97,22 @@ void Logic_Nim::man_choosing(int num_of_chosen_bunch, int amount_of_chosen_stone
 }
 
 void Logic_Nim::swap_priority() {
-	if (Logic_Nim::game_mode == Logic_Nim::player1_vs_player2)
-		Logic_Nim::who_do_move = (Logic_Nim::priority)((int)Logic_Nim::who_do_move - 2);
-	Logic_Nim::who_do_move = (Logic_Nim::priority)(1 - (int)Logic_Nim::who_do_move);
+	if (Logic_Nim::game_mode == Logic_Nim::player1_vs_player2) {
+		Logic_Nim::who_do_move = (Logic_Nim::priority)((1 - (Logic_Nim::who_do_move - 2)) + 2);
+		return;
+	}
+	Logic_Nim::who_do_move = (Logic_Nim::priority)(1 - Logic_Nim::who_do_move);
 }
 
-Logic_Nim::~Logic_Nim()
-{
+void Logic_Nim::do_turn() {
+	Logic_Nim::array_bunches[Logic_Nim::chosen_bunch] -= Logic_Nim::array_bunches[Logic_Nim::chosen_bunch] - Logic_Nim::chosen_stones;
+
 }
+
+bool Logic_Nim::end_of_game() {
+	for (int i = 0; i < Logic_Nim::num_of_bunches; i++)
+		if (Logic_Nim::array_bunches[i] > 0)
+			return false;
+	return true;
+}
+Logic_Nim::~Logic_Nim(){}

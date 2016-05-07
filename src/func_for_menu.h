@@ -9,4 +9,4 @@ void Settings();
 
 void Rules();
 
-void Load_game();
+void Save_game();

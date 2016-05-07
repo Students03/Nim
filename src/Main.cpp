@@ -3,16 +3,19 @@
 #include "Button.h"
 #include <string.h>
 #include <iostream>
+#include "func_for_menu.h"
+#include "secondary_functions.h"
 int X_max = 800;
 int Y_max = 600;
 
+struct textsettingstype textsettings;
 
 int main()/*WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)*/ {	
 	char game_name[] = "Ним";
 	const int num_of_item_menu = 5;
 	bool flag_exit = false;
 	bool flag_is_click = false;
-	int mx, my, number_of_func = -1;
+	int number_of_func = -1;
 	char* arr_str_menu[num_of_item_menu];
 	for (int i = 0; i < num_of_item_menu; i++) {
 		arr_str_menu[i] = new char[17];
@@ -32,19 +35,25 @@ int main()/*WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR l
 	Main_Menu.draw_background();
 	Main_Menu.draw_headline();
 	Main_Menu.set_style_body();
+	void* screen = get_image();
+	int color_bk;
 	while (!flag_exit) {
-		mx = mousex();
-		my = mousey();
 		flag_is_click = false;
 		if (ismouseclick(WM_LBUTTONUP)) {
 			clearmouseclick(WM_LBUTTONUP);
 			flag_is_click = true;
 		}
-		number_of_func = Main_Menu.draw_body(mx, my, flag_is_click);
+		number_of_func = Main_Menu.draw_body(mousex(), mousey(), flag_is_click);
 		switch (number_of_func)
 		{
 		case 0:
 			/*Новая игра*/
+			gettextsettings(&textsettings);
+			color_bk = getbkcolor();
+			New_game();
+			settextstyle(textsettings.font, textsettings.direction, textsettings.charsize);
+			put_image(screen);
+			setbkcolor(color_bk);
 			std::cout << " 0 ";
 			break;
 		case 1:

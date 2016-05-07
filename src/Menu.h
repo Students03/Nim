@@ -3,8 +3,8 @@
 class Menu
 {
 private:
-	static const int num_of_item_menu = 5;
-	int color_background;
+
+	
 	int interval_between_str;
 
 	struct settings_text
@@ -19,11 +19,7 @@ private:
 		int x;
 		int y;
 	} coord_header;
-	struct location
-	{
-		coordinate left_top;
-		coordinate right_bottom;
-	} array_location_of_strs[Menu::num_of_item_menu], loc_of_body;
+
 
 	char* name_header;
 	char** name_body;
@@ -31,18 +27,25 @@ private:
 
 	void init_array_with_coord_menu();
 	void comp_interval_between_str(int height_str);
-	Menu::location compute_coord_str_in_menu(char * str_menu, int & buff);
+	
 	int compute_coord_X_str(char * str);
 	Menu::coordinate compute_right_bottom(char * str, Menu::coordinate left_top);
 
-	bool if_in_area(Menu::location pos_str, int mx, int my);
+	
 
 	int determine_color_text(int mx, int my, int i);
 
 public:
-	
+	static const int num_of_item_menu = 5;
+	struct location
+	{
+		coordinate left_top;
+		coordinate right_bottom;
+	} array_location_of_strs[Menu::num_of_item_menu], loc_of_body;
+	bool if_in_area(Menu::location pos_str, int mx, int my);
+	Menu::location compute_coord_str_in_menu(char * str_menu, int & buff);
 	Menu(char * header_name, char ** name_body_of_menu);
-
+	int color_background;
 	void set_color_background(int color_bkgd);
 	void draw_background();
 
