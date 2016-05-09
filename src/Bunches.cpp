@@ -16,7 +16,7 @@ Bunches::Bunches() {
 	Bunches::click = false;
 }
 
-void Bunches::draw_razm() {
+void Bunches::draw_razm() { // + заполнение массивов координат камней
 	setlinestyle(0, 0, 1);
 	setcolor(Bunches::color_line_area);
 	rectangle(Bunches::indent_left_right, Bunches::indent_top_bottom, X_max - Bunches::indent_left_right, Y_max - Bunches::indent_top_bottom);

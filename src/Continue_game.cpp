@@ -7,16 +7,15 @@
 extern int X_max;
 extern int Y_max;
 
-void New_game() {
+void Continue_game() {
 	Bunches bun;
 	Logic_Nim nim;
 	Button butts;
-	if(choose_mode(nim))
-		choose_difficulty(nim);
+
 	setfillstyle(1, LIGHTBLUE);
 	bar(0, 0, X_max, Y_max);
 	bun.draw_razm();
-	bun.set_form_figure(Bunches::trian);
+
 	bun.draw_all(nim); // прорисовываем начальные данные
 	draw_who_do_move(nim, LIGHTBLUE, RED);
 	while (true) {
@@ -36,13 +35,13 @@ void New_game() {
 			butts.set_flag_click(true);
 		}
 		bun.draw_all(nim);
-		if(butts.draw_makemove() && nim.chosen_bunch >= 0 && nim.chosen_bunch <= nim.num_of_bunches){
+		if (butts.draw_makemove() && nim.chosen_bunch >= 0 && nim.chosen_bunch <= nim.num_of_bunches) {
 			bun.delete_chosing_stones(nim, LIGHTBLUE);
 			nim.do_turn();
 			if (nim.end_of_game()) {
 				draw_end(nim, LIGHTBLUE);
 				delay(1000);
-					break;
+				break;
 			}
 			nim.swap_priority();
 			nim.set_num_chosen_bunch_stone(-1, -1);

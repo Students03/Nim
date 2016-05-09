@@ -138,7 +138,50 @@ void* get_image() {
 	return screen;
 }
 
-void put_image(void* screen) {
+void put_image_and_free_mem(void* screen) {
 	putimage(0, 0, screen, 0);
 	free(screen);
+}
+
+
+void getstate__func__putstate(void (*function)()) {
+	void *screen = get_image();
+	textsettingstype textsettings;
+	gettextsettings(&textsettings);
+	linesettingstype lineinfo;
+	getlinesettings(&lineinfo);
+	int color_bk = getbkcolor();
+	int color = getcolor();
+	fillsettingstype fillsettings;
+	getfillsettings(&fillsettings);
+
+	(*function)();
+	
+	settextstyle(textsettings.font, textsettings.direction, textsettings.charsize);
+	setlinestyle(lineinfo.linestyle, lineinfo.upattern, lineinfo.thickness);
+	setbkcolor(color_bk);
+	setcolor(color);
+	setfillstyle(fillsettings.pattern, fillsettings.color);
+	put_image_and_free_mem(screen);	
+}
+bool getstate__func__putstate(bool(*function)()) {
+	void *screen = get_image();
+	textsettingstype textsettings;
+	gettextsettings(&textsettings);
+	linesettingstype lineinfo;
+	getlinesettings(&lineinfo);
+	int color_bk = getbkcolor();
+	int color = getcolor();
+	fillsettingstype fillsettings;
+	getfillsettings(&fillsettings);
+
+	bool value = (*function)();
+
+	settextstyle(textsettings.font, textsettings.direction, textsettings.charsize);
+	setlinestyle(lineinfo.linestyle, lineinfo.upattern, lineinfo.thickness);
+	setbkcolor(color_bk);
+	setcolor(color);
+	setfillstyle(fillsettings.pattern, fillsettings.color);
+	put_image_and_free_mem(screen);
+	return value;
 }

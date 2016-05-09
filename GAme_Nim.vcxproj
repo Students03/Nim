@@ -67,6 +67,7 @@
   <ItemGroup>
     <ClCompile Include="src\Bunches.cpp" />
     <ClCompile Include="src\Button.cpp" />
+    <ClCompile Include="src\Continue_game.cpp" />
     <ClCompile Include="src\Logic_Nim.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Menu.cpp" />
